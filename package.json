@@ -1,0 +1,9 @@
+{
+  "name": "ProyectoFinalIoT",
+  "version": "1.0.0",
+  "description": "Este es el proyecto final de la materia Electiva 2 (IoT). Prof. Willis Ezequiel Polanco Caraballo",
+  "repository": "git@github.com:xlCyanz/ProyectoFinalIoT.git",
+  "author": "Johan Ezequiel Sierra Linares <johanse.linares@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
