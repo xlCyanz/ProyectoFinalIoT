@@ -16,7 +16,22 @@ server.listen(process.env.PORT || port, () =>
 );
 
 io.on("connection", (socket) => {
-  console.log("socket initialization completed");
+  socket.emit("light", { light: "lawngreen" });
+
+  socket.on("changeLight", (light) => {
+    if(light === "lawngreen") {
+      socket.emit("light", { light: "yellow" });
+    }
+
+    if (light === "yellow") {
+      socket.emit("light", { light: "red" });
+    }
+
+    if (light === "red") {
+      socket.emit("light", { light: "lawngreen" });
+    }
+  })
+
   socket.on("say", (data) => {
     console.log(data, "received information");
     socket.emit("message", { hello: "who are you" });
