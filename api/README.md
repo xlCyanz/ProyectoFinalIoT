@@ -7,6 +7,6 @@ Este es el proyecto final de la materia Electiva 2 (IoT).
 - Alana Rodríguez ()
 - Estefanía Arias ()
 - Yessica Puesan ()
-- Bryan Xavier Florentino ()
+- Bryan Xavier Florentino (2020-10674)
 - Nehemías Alexander González ()
 - Johan Ezequiel Sierra Linares (2020-9997) - Api

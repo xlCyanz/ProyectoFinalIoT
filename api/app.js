@@ -6,6 +6,8 @@ import {
 import {
   Server as ServerIO
 } from "socket.io";
+import mqtt from "./mqttHandler.js";
+import { iotDevice } from "./awsService.js";
 
 const app = new Koa();
 const port = 2727;
@@ -15,30 +17,32 @@ app.use(Serve("./public")); // Para pruebas del ws
 const server = Server(app.callback());
 const io = new ServerIO(server);
 
-server.listen(process.env.PORT || port, () =>
+server.listen(process.env.PORT || port, () => {
   console.log(`Running on: http://localhost:${port}`)
+}
 );
 
 const RED_STATE = "red";
 const GREEN_STATE = "green";
 const YELLOW_STATE = "yellow";
 
-const aws = {
-  on: (listenerAws, callback) => {
-    callback(listenerAws)
-  },
-  emit: (listener, object) => {
-    console.log(`Aws ${listener} emit: ${JSON.stringify(object)}`)
-  }
-}
+let actualState = GREEN_STATE;
+
+// const aws = {
+//   on: (listenerAws, callback) => {
+//     callback(listenerAws)
+//   },
+//   emit: (listener, object) => {
+//     console.log(`Aws ${listener} emit: ${JSON.stringify(object)}`)
+//   }
+// }
 
 io.on("connection", (socket) => {
+
   socket.join(socket.id);
 
-  let actualState = GREEN_STATE;
-
-  const changeLight = (light, timer = 0, next = null) => {
-    actualState = light;
+ const changeLight = ( light, timer = 0,  next = null) => {
+    
     console.log(`light changed to ${light}`);
     let countdown = timer;
 
@@ -48,21 +52,18 @@ io.on("connection", (socket) => {
           light,
           countdown
         });
-  
         
         if (countdown <= 0) {
           clearInterval(interval);
           if(next !== null) next();
         }
-
         countdown--;
       }, 1000);
     } else {
       if(next !== null) next();
     }
-
-    aws.emit("stopLight", { light });
-    io.to(socket.id).emit("light", { light });
+    // // aws.emit("stopLight", { light });
+    io.to(socket.id).emit("light", { light } );
   };
 
   io.to(socket.id).emit("light", {
@@ -79,8 +80,11 @@ io.on("connection", (socket) => {
 
     console.log(`Request accept for room ${socket.id}`);
     
+    mqtt.publish("semaforo", YELLOW_STATE)
     changeLight(YELLOW_STATE, 5, () => {
-      changeLight(RED_STATE, 5, () => {
+      mqtt.publish("semaforo", RED_STATE)
+      changeLight(RED_STATE , 5, () => {
+        mqtt.publish("semaforo", GREEN_STATE)
         changeLight(GREEN_STATE)
       })
     });
@@ -93,3 +97,19 @@ io.on("connection", (socket) => {
   //   // io.to(socket.id).emit("light", { light });
   // });
 });
+
+// MQTT Handling
+const getMessage = () => {
+  // Every time a message is published in the broker it will be captured here
+  actualState = mqtt.listenMessage()
+}
+
+mqtt.connect()
+mqtt.disconnect()
+mqtt.reconnect()
+mqtt.error()
+getMessage() //receive messages from broker
+
+// iotDevice.on("message", (topic, payload) => {
+//   actualState =  JSON.parse(payload.toString()).ligth
+// })

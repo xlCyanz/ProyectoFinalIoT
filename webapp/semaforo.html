@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Documento sin título</title>
+		
+    	<style>
+        	.contenedor{
+				width:1310px;
+				height:610px;
+				margin: 0;
+                padding:0;
+                background: url(img/scene-99.jpg);		
+                background-size: cover;
+                background-position: center;
+                font-family: sans-serif;
+			}
+			.semaforo1,.semaforo2{
+				width:70px;
+				border:solid 1px rgb(0, 0, 0);
+				padding:2%;
+				background-color:#21252E;
+				border-radius:5px;
+				
+			}
+			.focos{
+				width:80%;
+			}
+			.foco{
+				width:50px;
+				height:50px;
+				border-radius:50%;
+				border:solid 1px rgb(255, 255, 255);
+			}
+			.rojo{
+				background-color:red;
+			}
+			.amarillo{
+				background-color:yellow;
+			}
+			.verde{
+				background-color:green;
+			}
+			.gris{
+				background-color:#272727;
+			}
+			.contador{
+				width:60px;
+				height:60px;
+				border:solid 5px rgb(12, 29, 104);
+				border-radius:5px;
+				text-align:center;
+				padding-top:2%;
+				box-sizing:border-box;
+				background-color:#2346A6;
+				color:white;
+				
+			}
+			.encender,.apagar{
+				width:100px;
+				background-color:green;
+				color:white;
+				text-align:center;
+				cursor:pointer;
+				border-radius:5px;
+			}
+			.apagar{
+				background-color:red;
+			}
+			.alinear-horizontal{
+				vertical-align:top;
+				display:inline-block;
+			}
+			.centrar-div{
+				margin:0px auto;
+			}
+
+        </style>
+    	<script>
+		window.addEventListener('load',iniciar,false);
+		var focos=null;
+		var contar=null;
+		var foco=null;
+		var control1=1;
+		var control2=0;
+		var contador=60;
+		var semaforo=1;
+		function iniciar(){
+			//funcion  para iniciar el semaforo
+			iniciarSemaforo();
+			
+			//botones para encender y apagar el semaforo
+			var encender=document.getElementById('encender');
+			encender.addEventListener('click',iniciarSemaforo,false);
+			var apagar=document.getElementById('apagar');
+			apagar.addEventListener('click',detenerSemaforo,false);
+			
+			//focos del semaforo
+			foco=document.getElementsByClassName('foco');
+		}
+		function iniciarSemaforo(){
+			if(control1==1){
+				var divContador=document.getElementById('divContador');
+				divContador.innerHTML=contador;
+				
+				contar=setInterval(function (){
+					contador--;
+					if(contador==0){//reiniciando el contador cuando llega a 60
+						contador=60;
+					}
+					
+					divContador.innerHTML=contador;
+					
+					if(contador==10){//condicional para controlar cual de los dos semaforos cambia cuando en contador llega a 10
+						if(semaforo==1){//semaforo 1
+							foco[1].className='foco amarillo centrar-div';
+							foco[2].className='foco gris centrar-div';
+						}
+						if(semaforo==2){//semaforo 2
+							foco[4].className='foco amarillo centrar-div';
+							foco[5].className='foco gris centrar-div';
+						}
+					}
+					if(contador==1){
+						if(semaforo==1){
+							foco[0].className='foco rojo centrar-div';
+							foco[1].className='foco gris centrar-div';
+							foco[5].className='foco verde centrar-div';
+							foco[3].className='foco gris centrar-div';
+							semaforo=2;//indica que el que tiene que cambiar la siguiente vez es el semaforo 2
+						}else{
+							foco[0].className='foco gris centrar-div';
+							foco[2].className='foco verde centrar-div';
+							foco[4].className='foco gris centrar-div';
+							foco[3].className='foco rojo centrar-div';
+							semaforo=1;
+						}
+					}
+				},100);
+				control1=0;
+				control2=1;
+			}else{
+				alert('El semaforo esta encendido');
+			}
+		}
+		function detenerSemaforo(){
+			if(control2==1){
+				clearInterval(contar);
+				control1=1;
+				control2=0;
+			}else{
+				alert('El semaforo esta apagado');
+			}
+		}
+		function semaforo(){
+			
+		}
+		</script>
+    </head>
+	<body>
+		
+	
+		<div class="contenedor centrar-div">
+			
+        	<div class="semaforo1 alinear-horizontal">
+            	<div class="focos centrar-div">
+                    <div class="foco gris centrar-div" id="focoR1">
+                    </div>
+                    <div class="foco gris centrar-div" id="focoA1">
+                    </div>
+                    <div class="foco verde centrar-div" id="focoV1">
+                    </div>
+            	</div>
+            </div>
+            <div class="semaforo2 alinear-horizontal">
+            	<div class="focos centrar-div">
+                    <div class="foco rojo centrar-div" id="focoR2">
+                    </div>
+                    <div class="foco gris centrar-div" id"focoA2">
+                    </div>
+                    <div class="foco gris centrar-div" id="focoV2">
+                    </div>
+               </div>
+            </div>
+            <div class="contador alinear-horizontal" id="divContador">
+            </div>
+            <div class="boton encender alinear-horizontal" id="encender">
+            	Encender
+            </div>
+            <div class="boton apagar alinear-horizontal" id="apagar">
+            	Apagar
+            </div>
+        </div>
+		
+    </body>
+</html>

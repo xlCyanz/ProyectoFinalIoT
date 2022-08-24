@@ -9,5 +9,5 @@ socket.on("light", (data) => {
 })
 
 buttonChangeSemaphore.addEventListener("click", () => {
-    socket.emit("changeLight", semaforo.style.backgroundColor);
+    socket.emit("requestChangeLight", semaforo.style.backgroundColor);
 })
