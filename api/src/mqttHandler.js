@@ -10,11 +10,12 @@ const publish = (topic, message) =>
     })
   );
 
-const connect = () =>
+const connect = () => {
   iotDevice.on("connect", () => {
     console.log("Device Connected");
     subscribe("semaforo");
-  });
+  })
+};
 
 const disconnect = () =>
   iotDevice.on("offline", () => {
@@ -31,11 +32,6 @@ const error = () =>
     console.log("There was an error", error);
   });
 
-const listenMessage = () =>
-  iotDevice.on("message", (topic, payload) => {
-    return JSON.parse(payload.toString()).light;
-  });
-
 const mqtt = {
   subscribe,
   publish,
@@ -43,7 +39,6 @@ const mqtt = {
   disconnect,
   reconnect,
   error,
-  listenMessage,
 };
 
 export default mqtt;

@@ -6,6 +6,7 @@ import {
   YELLOW_STATE,
   YELLOW_STATE_TIME,
 } from "./constants.js";
+import mqtt from "./mqttHandler.js";
 
 const TrafficLights = (socket) => {
   let running = true;
@@ -56,11 +57,11 @@ const TrafficLights = (socket) => {
       stop();
 
       stage = 1;
-      socket.emit("aws", { light: stages[stage] }); // TODO: Cambiar esta linea por AWS
+      mqtt.publish("semaforo", JSON.stringify(stages[stage]));
 
       setTimeout(() => {
         stage = 2;
-        socket.emit("aws", { light: stages[stage] }); // TODO: Cambiar esta linea por AWS
+        mqtt.publish("semaforo", JSON.stringify(stages[stage]));
       }, 5000);
 
       setTimeout(() => {
@@ -83,7 +84,7 @@ const TrafficLights = (socket) => {
 
       let wait_seconds = seconds_every_step[steps];
 
-      socket.emit("aws", { light: stages[stage] }); // TODO: Cambiar esta linea por AWS
+      mqtt.publish("semaforo", JSON.stringify(stages[stage]));
 
       stage++;
       steps++;
