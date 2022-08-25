@@ -1,0 +1,105 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: url(img/scene-99.jpg);
+    background-size: cover;
+    background-position: center;
+    width:100vw;
+    height:100vh;
+}
+
+.contenedor{
+    padding-top:25px;
+    padding-left: 100px;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: row;
+}
+.semaforo1,.semaforo2{
+    width:100%;
+    border:solid 1px rgb(0, 0, 0);
+    height: 180px;
+    padding:2%;
+    background-color:#21252E;
+    border-radius:5px;
+}
+.semaforo2{
+    margin-left: 10px;
+}
+.focos{
+    width:80%;
+}
+.foco{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:solid 1px rgb(255, 255, 255);
+}
+.rojo{
+    background-color:red;
+}
+.amarillo{
+    background-color:yellow;
+}
+.verde{
+    background-color:green;
+}
+.gris{
+    background-color:#272727;
+}
+.contador{
+    width:60px;
+    height:60px;
+    border:solid 5px rgb(12, 29, 104);
+    border-radius:5px;
+    text-align:center;
+    padding-top:2%;
+    box-sizing:border-box;
+    background-color:#2346A6;
+    color:white;	
+}
+.encender,.apagar{
+    width:100px;
+    padding: 5px;
+    height: 30px;
+    background-color:green;
+    margin-left: 5px;
+    color:white;
+    text-align:center;
+    cursor:pointer;
+    border-radius:5px;
+}
+.apagar{
+    background-color:red;
+}
+.alinear-horizontal{
+    vertical-align:top;
+    display:inline-block;
+}
+.centrar-div{
+    margin:0px auto;
+}
+.semaforo-control {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 5px;
+    width: 10%;
+}
+.semaforos-container{
+    display: flex;
+}
+.paso{
+    margin-top: 10px;
+    background-color: rgb(12, 29, 104);
+    color: white;
+    padding: 10px 5px;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.paso:hover{
+    background-color:#2346A6;
+}

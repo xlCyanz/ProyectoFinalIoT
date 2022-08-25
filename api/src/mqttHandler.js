@@ -2,11 +2,12 @@ import { iotDevice } from "./awsService.js";
 
 const subscribe = (topic) => iotDevice.subscribe(topic);
 
-const publish = (topic, message) =>
+const publish = (topic, message, time) =>
   iotDevice.publish(
     topic,
     JSON.stringify({
       light: message,
+      time
     })
   );
 

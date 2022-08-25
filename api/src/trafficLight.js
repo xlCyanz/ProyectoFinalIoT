@@ -11,7 +11,7 @@ import mqtt from "./mqttHandler.js";
 const TrafficLights = (socket) => {
   let running = true;
   let broked = false;
-
+  
   const stages = [
     {
       name: GREEN_STATE,
@@ -23,13 +23,13 @@ const TrafficLights = (socket) => {
       name: RED_STATE,
     },
   ];
-
+  
   const seconds_every_step = [
     GREEN_STATE_TIME,
     YELLOW_STATE_TIME,
     RED_STATE_TIME,
   ];
-
+  
   let stage = 0;
   let steps = 0;
   let timer = null;
@@ -55,22 +55,16 @@ const TrafficLights = (socket) => {
       console.log(`Request accept for room ${socket.id}`);
 
       stop();
-
       stage = 1;
-      mqtt.publish("semaforo", JSON.stringify(stages[stage]));
+      mqtt.publish("semaforo", JSON.stringify(stages[stage]), YELLOW_STATE_TIME);
 
       setTimeout(() => {
         stage = 2;
-        mqtt.publish("semaforo", JSON.stringify(stages[stage]));
-      }, 5000);
-
-      setTimeout(() => {
-        steps = 0;
-        stage = 3;
-
+        mqtt.publish("semaforo", JSON.stringify(stages[stage]), RED_STATE_TIME);
+      }, YELLOW_STATE_TIME * 1000);
+      
         start();
         broked = false;
-      }, 15000);
     }
   };
 
@@ -78,18 +72,19 @@ const TrafficLights = (socket) => {
     if (!running) {
       clearTimeout(timer);
       return;
-    } else {
+    } 
+    else {
       if (stage >= stages.length) stage = 0;
       if (steps >= seconds_every_step.length) steps = 0;
 
-      let wait_seconds = seconds_every_step[steps];
+      let waitSeconds = seconds_every_step[steps];
 
-      mqtt.publish("semaforo", JSON.stringify(stages[stage]));
+      mqtt.publish("semaforo", JSON.stringify(stages[stage]), waitSeconds);
 
       stage++;
       steps++;
 
-      timer = setTimeout(changeLight, wait_seconds * 1000);
+      timer = setTimeout(changeLight, waitSeconds * 1000);
     }
   };
 

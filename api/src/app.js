@@ -12,7 +12,12 @@ const port = 2727;
 app.use(Serve("./public")); // Para pruebas del ws
 
 const server = Server(app.callback());
-const io = new ServerIO(server);
+
+const io = new ServerIO(server, {
+  cors:{
+    origin:'*'
+  }
+});
 
 server.listen(process.env.PORT || port, () => {
   console.log(`Running on: http://localhost:${port}`);
@@ -31,7 +36,7 @@ io.on("connection", (socket) => {
   });
 
   iotDevice.on("message", (topic, payload) => {
-    socket.emit("light", JSON.parse(JSON.parse(payload.toString()).light));
+    socket.emit("light",JSON.parse(payload.toString()) );
   });
 
   socket.on("disconnect", () => {
