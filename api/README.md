@@ -4,7 +4,7 @@ Este es el proyecto final de la materia Electiva 2 (IoT).
 
 ## Participantes
 
-- Alana Rodríguez ()
+- Alana Rodríguez (2020-9914)
 - Estefanía Arias ()
 - Yessica Puesan ()
 - Bryan Xavier Florentino (2020-10674)
