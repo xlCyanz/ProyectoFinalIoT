@@ -1,75 +1,117 @@
-
-window.addEventListener("load", iniciar, false);
-var focos = null;
-var contar = null;
-var foco = null;
-var control1 = 1;
-var control2 = 0;
-var contador = 30;
-var semaforo = 1;
-var ctrlPaso = document.getElementById("ctrlPaso");
-
 const socket = io.connect("ws://localhost:2727");
 
-function iniciar() {
-  //funcion  para iniciar el semaforo
-  iniciarSemaforo();
+const ctrlPaso = document.getElementById("ctrlPaso");
+const encender = document.getElementById("encender");
+const apagar = document.getElementById("apagar");
+const foco = document.getElementsByClassName("foco");
+const divContador = document.getElementById("divContador");
+const customers = document.getElementById("customers");
+const customersBody = document.getElementById("customers_body");
+const btnTable = document.getElementById("btnTable");
 
-  //botones para encender y apagar el semaforo
-  var encender = document.getElementById("encender");
-  encender.addEventListener("click", iniciarSemaforo, false);
-  var apagar = document.getElementById("apagar");
-  apagar.addEventListener("click", detenerSemaforo, false);
+const GREEN_LIGHT = "green";
+const YELLOW_LIGHT = "yellow";
+const RED_LIGHT = "red";
 
-  ctrlPaso.addEventListener("click", () => {
-    socket.emit("requestChangeLight")
-  })
+let focos = null;
+let contar = null;
+let control1 = 1;
+let control2 = 0;
+let contador = 0;
+let semaforo = 1;
 
-  socket.on("light", data => {
+encender.addEventListener("click", iniciarSemaforo, false);
+apagar.addEventListener("click", detenerSemaforo, false);
+btnTable.addEventListener("click", () => {
+  let display = customers.style.display;
 
-    switch(JSON.parse(data.light).name) {
-        case "green" : 
-            foco[2].className = "foco verde centrar-div";
-            foco[0].className = "foco gris centrar-div";
-            break
-        
-        case "red": 
-            foco[0].className = "foco rojo centrar-div";
-            foco[1].className = "foco gris centrar-div";
-            break;
+  if(display === "none") {
+    customers.style.display = "";
+    btnTable.innerHTML = "Esconder tabla"
+  } else {
+    customers.style.display = "none";
+    btnTable.innerHTML = "Mostrar tabla"
+  }
+})
 
-        case "yellow":
-            foco[2].className = "foco gris centrar-div";
-            foco[1].className = "foco amarillo centrar-div";
-            break;
+ctrlPaso.addEventListener("click", () => {
+  socket.emit("requestChangeLight");
+});
 
-        }
-    contador = data.time
-  })
+const createElement = (element, children, attributes) => {
+  const newElement = document.createElement(element);
+  if (attributes)
+    Object.entries(attributes).forEach(([key, value]) =>
+      newElement.setAttribute(key, value)
+    );
+  if (children) newElement.innerText = children;
+  return newElement;
+};
 
-  //focos del semaforo
-  foco = document.getElementsByClassName("foco");
-}
-function iniciarSemaforo() {
+const addReport = () => {
+  const tr = createElement("tr");
+
+  const tdId = createElement("td", socket.id);
+  const tdPaso = createElement("td", "1");
+  const tdMetros = createElement("td", "10 metros");
+
+  tr.append(tdId, tdPaso, tdMetros);
+
+  customersBody.appendChild(tr);
+};
+
+const iniciar = (data) => {
+  foco[0].className = "foco gris centrar-div";
+  foco[1].className = "foco gris centrar-div";
+  foco[2].className = "foco gris centrar-div";
+
+  switch (JSON.parse(data.light).name) {
+    case GREEN_LIGHT:
+      foco[2].className = "foco verde centrar-div";
+      break;
+
+    case RED_LIGHT:
+      foco[0].className = "foco rojo centrar-div";
+      break;
+
+    case YELLOW_LIGHT:
+      foco[1].className = "foco amarillo centrar-div";
+      break;
+  }
+
+  contador = data.time;
+
   if (control1 == 1) {
-    var divContador = document.getElementById("divContador");
     divContador.innerHTML = contador;
 
     contar = setInterval(function () {
-      
       contador--;
-      if(contador < 0) {
-        contador = 0
+      if (contador < 0) {
+        contador = 0;
       }
       divContador.innerHTML = contador;
-
     }, 1000);
     control1 = 0;
     control2 = 1;
-  } else {
-    alert("El semaforo esta encendido");
+  }
+};
+
+function iniciarSemaforo() {
+  if (control1 == 1) {
+    divContador.innerHTML = contador;
+
+    contar = setInterval(function () {
+      contador--;
+      if (contador < 0) {
+        contador = 0;
+      }
+      divContador.innerHTML = contador;
+    }, 1000);
+    control1 = 0;
+    control2 = 1;
   }
 }
+
 function detenerSemaforo() {
   if (control2 == 1) {
     clearInterval(contar);
@@ -79,4 +121,6 @@ function detenerSemaforo() {
     alert("El semaforo esta apagado");
   }
 }
-function semaforo() {}
+
+socket.on("light", iniciar);
+socket.on("changeLightAccepted", addReport);

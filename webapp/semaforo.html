@@ -1,52 +1,58 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Semaforo IoT</title>
-		<link rel="stylesheet" href="index.css">
-    </head>
-	<body>
-		<div class="contenedor centrar-div">
-			<div class="semaforo-control">
-				<div class="semaforos-container">
-					<div class="semaforo1 alinear-horizontal">
-						<div class="focos centrar-div">
-							<div class="foco gris centrar-div" id="focoR1">
-							</div>
-							<div class="foco gris centrar-div" id="focoA1">
-							</div>
-							<div class="foco verde centrar-div" id="focoV1">
-							</div>
+
+<head>
+	<meta charset="utf-8">
+	<title>Semaforo IoT</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+	<div class="contenedor centrar-div">
+		<div class="semaforo-control">
+			<div class="semaforos-container">
+				<div class="semaforo1 alinear-horizontal">
+					<div class="focos centrar-div">
+						<div class="foco gris centrar-div" id="focoR1">
+						</div>
+						<div class="foco gris centrar-div" id="focoA1">
+						</div>
+						<div class="foco verde centrar-div" id="focoV1">
 						</div>
 					</div>
-					<!-- <div class="semaforo2 alinear-horizontal">
-						<div class="focos centrar-div">
-							<div class="foco rojo centrar-div" id="focoR2">
-							</div>
-							<div class="foco gris centrar-div" id="focoA2">
-							</div>
-							<div class="foco gris centrar-div" id="focoV2">
-							</div>
-					   </div>
-					</div> -->
 				</div>
-				<button class="paso" id="ctrlPaso">Solicitar Paso</button>
 			</div>
- 
-            <div class="contador alinear-horizontal" id="divContador">
-            </div>
-            <div class="boton encender alinear-horizontal" id="encender">
-            	Encender
-            </div>
-            <div class="boton apagar alinear-horizontal" id="apagar">
-            	Apagar
-            </div>
-        </div>
+			<button class="paso" id="ctrlPaso">Solicitar Paso</button>
+		</div>
 
-		<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" 
-			integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous">
+		<div class="contador alinear-horizontal" id="divContador">
+		</div>
+		<button class="boton encender" id="encender">
+			Encender
+		</button>
+		<button class="boton apagar" id="apagar">
+			Apagar
+		</button>
+		<button class="boton btnTable" id="btnTable">
+			Mostrar Tabla
+		</button>
+	</div>
+
+	<table id="customers" style="display: none">
+		<tr>
+			<th>ID</th>
+			<th>Paso</th>
+			<th>Metros</th>
+		</tr>
+		<tbody id="customers_body">
+		</tbody>
+	</table>
+
+	<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"
+		integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous">
 		</script>
 
-		<script src="index.js"></script>
-    </body>
+	<script src="index.js"></script>
+</body>
+
 </html>

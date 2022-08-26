@@ -1,96 +1,124 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
-body{
+
+body {
     background: url(img/scene-99.jpg);
     background-size: cover;
     background-position: center;
-    width:100vw;
-    height:100vh;
+    width: 100vw;
+    height: 100vh;
 }
 
-.contenedor{
-    padding-top:25px;
+.contenedor {
+    padding-top: 25px;
     padding-left: 100px;
     font-family: sans-serif;
     display: flex;
     flex-direction: row;
 }
-.semaforo1,.semaforo2{
-    width:100%;
-    border:solid 1px rgb(0, 0, 0);
+
+.semaforo1,
+.semaforo2 {
+    width: 100%;
+    border: solid 1px rgb(0, 0, 0);
     height: 180px;
-    padding:2%;
-    background-color:#21252E;
-    border-radius:5px;
+    padding: 2%;
+    background-color: #21252E;
+    border-radius: 5px;
 }
-.semaforo2{
+
+.semaforo2 {
     margin-left: 10px;
 }
-.focos{
-    width:80%;
+
+.focos {
+    width: 80%;
 }
-.foco{
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    border:solid 1px rgb(255, 255, 255);
+
+.foco {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: solid 1px rgb(255, 255, 255);
 }
-.rojo{
-    background-color:red;
+
+.rojo {
+    background-color: red;
 }
-.amarillo{
-    background-color:yellow;
+
+.amarillo {
+    background-color: yellow;
 }
-.verde{
-    background-color:green;
+
+.verde {
+    background-color: green;
 }
-.gris{
-    background-color:#272727;
+
+.gris {
+    background-color: #272727;
 }
-.contador{
-    width:60px;
-    height:60px;
-    border:solid 5px rgb(12, 29, 104);
-    border-radius:5px;
-    text-align:center;
-    padding-top:2%;
-    box-sizing:border-box;
-    background-color:#2346A6;
-    color:white;	
+
+.contador {
+    width: 60px;
+    height: 60px;
+    border: solid 5px rgb(12, 29, 104);
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 2%;
+    box-sizing: border-box;
+    background-color: #2346A6;
+    color: white;
 }
-.encender,.apagar{
-    width:100px;
+
+.boton {
+    width: 120px;
     padding: 5px;
     height: 30px;
-    background-color:green;
     margin-left: 5px;
-    color:white;
-    text-align:center;
-    cursor:pointer;
-    border-radius:5px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
 }
-.apagar{
-    background-color:red;
+
+.apagar {
+    background-color: red;
+    border-color: red;
 }
-.alinear-horizontal{
-    vertical-align:top;
-    display:inline-block;
+
+.encender {
+    background-color: green;
+    border-color: green;
 }
-.centrar-div{
-    margin:0px auto;
+
+.btnTable {
+    background-color: #F90;
+    border-color: #F90;
 }
+
+.alinear-horizontal {
+    vertical-align: top;
+    display: inline-block;
+}
+
+.centrar-div {
+    margin: 0px auto;
+}
+
 .semaforo-control {
     display: flex;
     flex-direction: column;
     padding: 0px 5px;
     width: 10%;
 }
-.semaforos-container{
+
+.semaforos-container {
     display: flex;
 }
-.paso{
+
+.paso {
     margin-top: 10px;
     background-color: rgb(12, 29, 104);
     color: white;
@@ -100,6 +128,39 @@ body{
     border-radius: 5px;
     cursor: pointer;
 }
-.paso:hover{
-    background-color:#2346A6;
+
+.paso:hover {
+    background-color: #2346A6;
+}
+
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 45%;
+    background-color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#customers td,
+#customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+    background-color: #ddd;
+}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #f90;
+    color: white;
 }

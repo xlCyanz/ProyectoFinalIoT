@@ -11,7 +11,7 @@ import mqtt from "./mqttHandler.js";
 const TrafficLights = (socket) => {
   let running = true;
   let broked = false;
-  
+
   const stages = [
     {
       name: GREEN_STATE,
@@ -23,13 +23,13 @@ const TrafficLights = (socket) => {
       name: RED_STATE,
     },
   ];
-  
+
   const seconds_every_step = [
     GREEN_STATE_TIME,
     YELLOW_STATE_TIME,
     RED_STATE_TIME,
   ];
-  
+
   let stage = 0;
   let steps = 0;
   let timer = null;
@@ -45,26 +45,31 @@ const TrafficLights = (socket) => {
   };
 
   const requestChange = () => {
-    if (stage === 1 && broked)
+    if (stage === 2 && !broked)
       return console.log(`Request denied for room ${socket.id}: is changing`);
-    if (stage === 2 && broked)
+    if (stage === 3 && !broked)
       return console.log(`Request denied for room ${socket.id}: already stop`);
 
     if (running) {
       broked = true;
       console.log(`Request accept for room ${socket.id}`);
+      socket.emit("changeLightAccepted");
 
       stop();
       stage = 1;
-      mqtt.publish("semaforo", JSON.stringify(stages[stage]), YELLOW_STATE_TIME);
+      mqtt.publish(
+        "semaforo",
+        JSON.stringify(stages[stage]),
+        YELLOW_STATE_TIME
+      );
 
       setTimeout(() => {
         stage = 2;
         mqtt.publish("semaforo", JSON.stringify(stages[stage]), RED_STATE_TIME);
       }, YELLOW_STATE_TIME * 1000);
-      
-        start();
-        broked = false;
+
+      start();
+      broked = false;
     }
   };
 
@@ -72,8 +77,7 @@ const TrafficLights = (socket) => {
     if (!running) {
       clearTimeout(timer);
       return;
-    } 
-    else {
+    } else {
       if (stage >= stages.length) stage = 0;
       if (steps >= seconds_every_step.length) steps = 0;
 
